@@ -8,7 +8,7 @@ import com.capgemini.librarymanagement.dto.Users;
 public class CommonDAOImplmnt implements CommonDAO {
 
 	@Override
-	public Boolean login(String studentId, String password) {
+	public Users login(String studentId, String password) {
 		// TODO Auto-generated method stub
 		return null;
 	}

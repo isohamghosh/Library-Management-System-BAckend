@@ -13,7 +13,7 @@ public class CommonServiceImplmnt implements CommonService {
 	CommonDAO dao;
 
 	@Override
-	public Boolean login(String studentId, String password) {
+	public Users login(String studentId, String password) {
 		return null;
 	}
 

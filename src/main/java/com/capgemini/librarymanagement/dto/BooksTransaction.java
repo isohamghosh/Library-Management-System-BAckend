@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.criteria.CriteriaBuilder.In;
 
 @Entity
 @Table(name="bookstransaction")
@@ -14,9 +15,9 @@ public class BooksTransaction {
 	@Id
 	@GeneratedValue
 	@Column(name="transaction_id")
-	private String transactionId;
+	private Integer transactionId;
 	@Column(name="registration_id")
-	private String registrationId;
+	private Integer registrationId;
 	@Column(name="issue_date")
 	private Date issueDate;
 	@Column(name="return_date")
@@ -24,28 +25,28 @@ public class BooksTransaction {
 	@Column
 	private Integer fine;
 	
-	public String getTransactionId() {
+	public Integer getTransactionId() {
 		return transactionId;
 	}
-	public void setTransactionId(String transactionId) {
+	public void setTransactionId(Integer transactionId) {
 		this.transactionId = transactionId;
 	}
-	public String getRegistrationId() {
+	public Integer getRegistrationId() {
 		return registrationId;
 	}
-	public void setRegistrationId(String registrationId) {
+	public void setRegistrationId(Integer registrationId) {
 		this.registrationId = registrationId;
 	}
 	public Date getIssueDate() {
 		return issueDate;
 	}
-	public void setIssueDate(String issue_date) {
+	public void setIssueDate(Date issueDate) {
 		this.issueDate = issueDate;
 	}
 	public Date getReturnDate() {
 		return returnDate;
 	}
-	public void setReturnDate(String return_date) {
+	public void setReturnDate(Date returnDate) {
 		this.returnDate = returnDate;
 	}
 	public Integer getFine() {

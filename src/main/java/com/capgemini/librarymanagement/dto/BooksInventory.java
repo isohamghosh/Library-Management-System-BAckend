@@ -21,7 +21,7 @@ public class BooksInventory {
 	private String publisher;
 	@Column
 	private String yearOfPublication;
-	public String getBook_id() {
+	public String getBookId() {
 		return bookId;
 	}
 	public void setBookId(String bookId) {

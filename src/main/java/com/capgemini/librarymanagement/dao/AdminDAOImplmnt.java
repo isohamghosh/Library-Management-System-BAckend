@@ -4,83 +4,84 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.librarymanagement.dto.Users;
+import com.capgemini.librarymanagement.exception.CustomException;
+
 @Repository
 public class AdminDAOImplmnt implements AdminDAO {
-	static EntityManagerFactory entityManagerFactory= Persistence.createEntityManagerFactory("TestPersistence");
-	EntityManager entityManager=entityManagerFactory.createEntityManager();;
-	EntityTransaction transaction=null;
-
-
-	@Override
-	public Boolean addStudent(Users student) {
-
-		
-		return null;
-	}
-
+	
+	@PersistenceUnit
+	EntityManagerFactory entityManagerFactory=Persistence.createEntityManagerFactory("TestPersistence");
+	EntityManager entityManager=entityManagerFactory.createEntityManager();
+	EntityTransaction transaction=entityManager.getTransaction();
 	@Override
 	public Users addLibrarian(Users librarian) {
+		
 		try {
-			entityManager= entityManagerFactory.createEntityManager();
-			transaction= entityManager.getTransaction();
 			transaction.begin();
 			entityManager.persist(librarian);
 			transaction.commit();
 			entityManager.close();
-		} catch (Exception e) {
+		} catch(Exception e) {
+			transaction.rollback();
+			throw new CustomException("Librarian not added");
+		}
+			return librarian;
+	}//end of addLibrarian
+
+
+	@Override
+	public Users updateLibrarian(Users librarian) {
+		try {
+			if(searchLibrarian(librarian.getId())!=null) {
+				return librarian;
+			}else {
+				transaction.begin();
+				entityManager.merge(librarian);
+				transaction.commit();
+				entityManager.close();
+			}
+		}catch(Exception e) {
 			transaction.rollback();
 			e.printStackTrace();
 		}
 		return librarian;
-	}
+	}//end of updateLibrarian
 
 	@Override
-	public Boolean updateStudent(Users student) {
-
-		
-		return null;
-	}
-
-	@Override
-	public Boolean updateLibrarian(Users librarian) {
-
-		
-		return null;
-	}
-
-	@Override
-	public Boolean deleteStudent(String studentId) {
-
-		return null;
-	}
-
-	@Override
-	public Users deleteLibrarian(String librarianId) {
-		Users users = null;
+	public Boolean deleteLibrarian(String librarianId) {
 		try {
-			entityManager= entityManagerFactory.createEntityManager();
-			transaction= entityManager.getTransaction();
-			transaction.begin();
-			users=entityManager.find(Users.class, librarianId);
-			entityManager.remove(users);
-			transaction.commit();
-		} catch (Exception e) {
+		Users users=null;
+		users=entityManager.find(Users.class, librarianId);
+			if(users==null) {
+				return false;
+			}else {
+				transaction.begin();
+				entityManager.remove(users);
+				transaction.commit();
+				entityManager.close();
+			}
+		}catch(Exception e) {
 			transaction.rollback();
 			e.printStackTrace();
 		}
-		
-		return users;
-	}
+		entityManager.close();
+		return true;
+		}//end of delete
 
 	@Override
 	public Users searchLibrarian(String librarianId) {
-
-		
-		return null;
-	}
-
+		Users users=null;
+		users=entityManager.find(Users.class, librarianId);
+				if(users!=null) {	
+				}else {
+					return users;
+				}
+				entityManager.close();
+				return users;
+	}//end of searchLibrarian
 }

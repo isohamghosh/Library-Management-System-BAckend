@@ -10,7 +10,7 @@ public class JPAConfig {
 	@Bean
 	public LocalEntityManagerFactoryBean getEMF() {
 		LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
-		factoryBean.setPersistenceUnitName("persistenceUnitName");
+		factoryBean.setPersistenceUnitName("TestPersistence");
 		return factoryBean;
 	}
 

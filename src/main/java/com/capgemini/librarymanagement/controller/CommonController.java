@@ -16,7 +16,6 @@ public class CommonController {
 	
 	@PostMapping("user/login")
 	public Users logIn(@RequestBody Users user) {
-		user = commonService.login(user);
-		return user;
+		return commonService.login(user);
 	}
 }

@@ -13,9 +13,10 @@ import javax.persistence.criteria.CriteriaBuilder.In;
 @Table(name="bookstransaction")
 public class BooksTransaction {
 	@Id
-	@GeneratedValue
 	@Column(name="transaction_id")
 	private Integer transactionId;
+	@Column(name = "student_id")
+	private String studentId;
 	@Column(name="registration_id")
 	private Integer registrationId;
 	@Column(name="issue_date")
@@ -54,6 +55,12 @@ public class BooksTransaction {
 	}
 	public void setFine(Integer fine) {
 		this.fine = fine;
+	}
+	public String getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
 	}
 	
 }

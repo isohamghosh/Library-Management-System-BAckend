@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.librarymanagement.dao.StudentDAO;
 import com.capgemini.librarymanagement.dto.BooksInventory;
+import com.capgemini.librarymanagement.dto.BooksRegistration;
+import com.capgemini.librarymanagement.dto.BooksTransaction;
 
 @Service
 public class StudentServiceImplmnt implements StudentService {
@@ -20,21 +22,28 @@ public class StudentServiceImplmnt implements StudentService {
 	}
 
 	@Override
-	public BooksInventory makeBookRequest(BooksInventory booksInvent) {
-		// TODO Auto-generated method stub
-		return null;
+	public BooksRegistration makeBookRequest(String bookId) {
+		return dao.makeBookRequest(bookId);
 	}
 
 	@Override
-	public Boolean cancelRequestedBook(BooksInventory booksInvent) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean cancelRequestedBook(Integer registrationId) {
+		return dao.cancelRequestedBook(registrationId);
 	}
 
 	@Override
-	public Boolean getResponse(BooksInventory booksInvent) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BooksTransaction> getResponse() {
+		return dao.getResponse();
+	}
+
+	@Override
+	public List<BooksRegistration> getAllRequestedBook() {
+		return dao.getAllRequestedBook();
+	}
+
+	@Override
+	public boolean returnBook(Integer transectionId) {
+		return dao.returnBook(transectionId);
 	}
 
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.librarymanagement.dao.LibrarianDAO;
 import com.capgemini.librarymanagement.dto.BooksInventory;
+import com.capgemini.librarymanagement.dto.BooksRegistration;
+import com.capgemini.librarymanagement.dto.BooksTransaction;
 import com.capgemini.librarymanagement.dto.Users;
 
 @Service
@@ -31,13 +33,13 @@ public class LibrarianServiceImplmnt implements LibrarianService {
 	}
 
 	@Override
-	public BooksInventory getBookRequest(BooksInventory booksInvent) {
-		return dao.getBookRequest(booksInvent);
+	public List<BooksRegistration> getBookRequest(){
+		return dao.getBookRequest();
 	}
 
 	@Override
-	public Boolean cancelBookRequest(String bookId, String bookName) {
-		return dao.cancelBookRequest(bookId, bookName);
+	public Boolean cancelBookRequest(Integer registrationId) {
+		return dao.cancelBookRequest(registrationId);
 	}
 
 	@Override
@@ -48,6 +50,11 @@ public class LibrarianServiceImplmnt implements LibrarianService {
 	@Override
 	public Boolean deleteStudent(String studentId) {
 		return dao.deleteStudent(studentId);
+	}
+
+	@Override
+	public BooksTransaction responseBookRequest(Integer registrationId) {
+		return dao.responseBookRequest(registrationId);
 	}
 
 }

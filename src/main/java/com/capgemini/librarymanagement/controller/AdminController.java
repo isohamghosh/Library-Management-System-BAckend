@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,13 +17,13 @@ import com.capgemini.librarymanagement.dto.Users;
 import com.capgemini.librarymanagement.services.AdminService;
 
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	private AdminService service;
 
 	
 	@PostMapping("/addLibrarian")
-	@ResponseBody
 	public UserResponse  addLibrarian(@RequestBody Users librarian) {
 		UserResponse response=new UserResponse();
 		
@@ -39,7 +40,6 @@ public class AdminController {
 	}//end of addLibrarian
 	
 	@PutMapping("/updateLibrarian")
-	@ResponseBody
 	public UserResponse updateLibrarian(@RequestBody Users librarian) {
 		UserResponse response=new UserResponse();
 		if(service.updateLibrarian(librarian) != null) {
@@ -54,7 +54,6 @@ public class AdminController {
 	}//end of updateLibrarian
 	
 	@GetMapping("/searchLibrarian/{id}")
-	@ResponseBody
 	public UserResponse searchLibrarian(@PathVariable(name = "id")String librarianId) {
 		UserResponse response=new UserResponse();
 		try {
@@ -74,7 +73,6 @@ public class AdminController {
 	}//end of searchLibrarian
 	
 	@DeleteMapping("/deleteLibrarian/{id}")
-	@ResponseBody
 	public UserResponse deleteLibrarian(@PathVariable(name="id")String librarianId) {
 		UserResponse response=new UserResponse();
 		if(service.deleteLibrarian(librarianId)) {

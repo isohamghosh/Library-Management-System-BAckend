@@ -1,6 +1,9 @@
 package com.capgemini.librarymanagement.dao;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,6 +14,8 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.librarymanagement.dto.BooksInventory;
+import com.capgemini.librarymanagement.dto.BooksRegistration;
+import com.capgemini.librarymanagement.dto.BooksTransaction;
 import com.capgemini.librarymanagement.dto.Users;
 import com.capgemini.librarymanagement.exception.CustomException;
 
@@ -31,12 +36,12 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			transaction.rollback();
 			throw new CustomException("Book not added");
 		}
-			return booksInvent;
+		return booksInvent;
 	}//end of addLibrarian
 
 	@Override
 	public BooksInventory updateBook(BooksInventory booksInvent) {
-		
+
 		try {
 			transaction.begin();
 			BooksInventory selecetdBook = entityManager.find(BooksInventory.class, booksInvent.getBookId());
@@ -56,8 +61,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 	@Override
 	public Boolean deleteBook(String bookId) {
 		try {
-		BooksInventory booksInventory=null;
-		booksInventory=entityManager.find(BooksInventory.class, bookId);
+			BooksInventory booksInventory=null;
+			booksInventory=entityManager.find(BooksInventory.class, bookId);
 			if(booksInventory==null) {
 				return false;
 			}else {
@@ -72,18 +77,44 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		}
 		entityManager.close();
 		return true;
-		}//end of deleteBook
+	}//end of deleteBook
 
 	@Override
-	public BooksInventory getBookRequest(BooksInventory booksInvent) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BooksRegistration> getBookRequest() {
+		List<BooksRegistration> registeredBooks=null;
+		try {
+			transaction.begin();
+			String query = "from BooksRegistration";
+			Query getDetailsQuarry = entityManager.createQuery(query);
+			registeredBooks = getDetailsQuarry.getResultList();
+			transaction.commit();
+			entityManager.close();
+		}catch (Exception e) {
+			throw new CustomException("No Records Found");
+		}
+		return registeredBooks;
 	}
 
+
+
 	@Override
-	public Boolean cancelBookRequest(String bookId, String bookName) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean cancelBookRequest(Integer registrationId) {
+		BooksRegistration id = entityManager.find(BooksRegistration.class, registrationId);
+		try {
+			if(id==null) {
+				return false;
+			}else {
+				transaction.begin();
+				entityManager.remove(id);
+				transaction.commit();
+				entityManager.close();
+			}
+		}catch(Exception e) {
+			transaction.rollback();
+			e.printStackTrace();
+		}
+		entityManager.close();
+		return true;
 	}
 
 	@Override
@@ -106,8 +137,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 	@Override
 	public Boolean deleteStudent(String studentId) {
 		try {
-		Users users=null;
-		users=entityManager.find(Users.class, studentId);
+			Users users=null;
+			users=entityManager.find(Users.class, studentId);
 			if(users==null) {
 				return false;
 			}else {
@@ -122,6 +153,34 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		}
 		entityManager.close();
 		return true;
-		}//end of deleteStudent
+	}//end of deleteStudent
+
+	@Override
+	public BooksTransaction responseBookRequest(Integer registrationId) {
+		BooksTransaction booksTransaction = new BooksTransaction();
+		try {
+			transaction.begin();
+			Random random = new Random();
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.DATE, 15);
+			Date returnDate = calendar.getTime();
+			booksTransaction.setTransactionId(random.nextInt((3000 - 1000) + 1) + 1000);
+			booksTransaction.setRegistrationId(registrationId);
+			booksTransaction.setIssueDate(new Date());
+			booksTransaction.setReturnDate(returnDate);
+			booksTransaction.setFine(0);
+			booksTransaction.setStudentId(CommonDAOImplmnt.userId);
+			entityManager.persist(booksTransaction);
+			BooksRegistration regId = entityManager.find(BooksRegistration.class, registrationId);
+			entityManager.remove(regId);
+			transaction.commit();
+			entityManager.close();
+		} catch(Exception e) {
+			transaction.rollback();
+			throw new CustomException("Failed to response");
+		}
+
+		return booksTransaction;
 	}
+}
 

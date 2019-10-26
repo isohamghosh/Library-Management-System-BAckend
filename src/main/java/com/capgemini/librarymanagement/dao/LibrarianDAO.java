@@ -3,6 +3,8 @@ package com.capgemini.librarymanagement.dao;
 import java.util.List;
 
 import com.capgemini.librarymanagement.dto.BooksInventory;
+import com.capgemini.librarymanagement.dto.BooksRegistration;
+import com.capgemini.librarymanagement.dto.BooksTransaction;
 import com.capgemini.librarymanagement.dto.Users;
 
 public interface LibrarianDAO {
@@ -12,9 +14,9 @@ public interface LibrarianDAO {
 		public BooksInventory updateBook(BooksInventory booksInvent);
 		public Boolean deleteBook(String bookId);
 		
-		public BooksInventory getBookRequest(BooksInventory booksInvent);
-		public Boolean cancelBookRequest(String bookId, String bookName);
-		
+		public List<BooksRegistration> getBookRequest();
+		public Boolean cancelBookRequest(Integer registrationId);
+		public BooksTransaction responseBookRequest(Integer registrationId);
 		public List<Users> searchStudent(String studentId);
 		public Boolean deleteStudent(String studentId);
 

@@ -117,8 +117,21 @@ public class StudentDAOImplmnt implements StudentDAO {
 
 	@Override
 	public boolean returnBook(Integer transectionId) {
-		
-		return false;
+		transaction.begin();
+		BooksTransaction booksTransaction = null;
+		booksTransaction = entityManager.find(BooksTransaction.class, transectionId);
+		Date returnDate = booksTransaction.getReturnDate();
+		Date todayDate = new Date();
+		long days = (todayDate.getTime() - returnDate.getTime()) / (1000 * 60 * 60 * 24);
+		if (days > 0) {
+			int fine = (int) days * 2;
+			booksTransaction.setFine(fine);
+		} else {
+			booksTransaction.setFine(0);
+		}
+		transaction.commit();
+		entityManager.close();
+		return false; 
 	}
 
 }

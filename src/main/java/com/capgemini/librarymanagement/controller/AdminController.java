@@ -18,10 +18,11 @@ import com.capgemini.librarymanagement.services.AdminService;
 public class AdminController {
 	@Autowired
 	private AdminService service;
+
 	
 	@PostMapping("/addLibrarian")
-	public Users addLibrarian(@RequestBody Users librarian) {
-		return service.addLibrarian(librarian); 
+	public Users  addLibrarian(@RequestBody Users librarian) {
+		return service.addLibrarian(librarian);
 	}//end of addLibrarian
 	
 	@PutMapping("/updateLibrarian")
@@ -36,7 +37,6 @@ public class AdminController {
 	
 	@DeleteMapping("/deleteLibrarian/{id}")
 	public boolean deleteLibrarian(@PathVariable(name="id")String librarianId) {
-		return service.deleteLibrarian(librarianId);
-	}//end of deleteLibrarian
+		return service.deleteLibrarian(librarianId);	}//end of deleteLibrarian
 
 }

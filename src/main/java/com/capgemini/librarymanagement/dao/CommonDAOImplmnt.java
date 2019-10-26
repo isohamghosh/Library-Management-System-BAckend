@@ -10,7 +10,6 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.capgemini.librarymanagement.dto.BooksInventory;
 import com.capgemini.librarymanagement.dto.Users;
 
 @Repository
@@ -35,18 +34,6 @@ public class CommonDAOImplmnt implements CommonDAO {
 			CommonDAOImplmnt.userId = user.getId();
 		}
 		return user;
-	}
-
-	@Override
-	public List<BooksInventory> getListOfBooks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Users> displayAllStudents() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

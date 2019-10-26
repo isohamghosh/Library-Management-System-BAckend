@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.librarymanagement.dto.BooksInventory;
@@ -44,5 +44,10 @@ public class StudentController {
 	@GetMapping("/cancelRequest/{id}")
 	public boolean  cancelBookRequest(@PathVariable(name = "id")Integer id) {
 		return service.cancelRequestedBook(id);
+	}
+	
+	@PutMapping("/returnBook/{id}")
+	public boolean  returnBook(@PathVariable(name = "id")Integer id) {
+		return service.returnBook(id);
 	}
 }

@@ -13,75 +13,73 @@ import com.capgemini.librarymanagement.exception.CustomException;
 
 @Repository
 public class AdminDAOImplmnt implements AdminDAO {
-	
+
 	@PersistenceUnit
-	EntityManagerFactory entityManagerFactory=Persistence.createEntityManagerFactory("TestPersistence");
-	EntityManager entityManager=entityManagerFactory.createEntityManager();
-	EntityTransaction transaction=entityManager.getTransaction();
+	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+	EntityManager entityManager = entityManagerFactory.createEntityManager();
+	EntityTransaction transaction = entityManager.getTransaction();
+
 	@Override
 	public Users addLibrarian(Users librarian) {
-		
+
 		try {
 			transaction.begin();
 			entityManager.persist(librarian);
 			transaction.commit();
 			entityManager.close();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Librarian not added");
 		}
-			return librarian;
-	}//end of addLibrarian
-
+		return librarian;
+	}// end of addLibrarian
 
 	@Override
 	public Users updateLibrarian(Users librarian) {
 		try {
-			if(searchLibrarian(librarian.getId())!=null) {
-				return librarian;
-			}else {
-				transaction.begin();
-				entityManager.merge(librarian);
+			transaction.begin();
+			Users getUser = entityManager.find(Users.class, librarian.getId());
+			if (getUser != null) {
+				getUser.setId(librarian.getId());
+				getUser.setName(librarian.getName());
+				getUser.setEmailId(librarian.getEmailId());
+				getUser.setPassword(librarian.getPassword());
 				transaction.commit();
 				entityManager.close();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
-			e.printStackTrace();
 		}
 		return librarian;
-	}//end of updateLibrarian
+	}// end of updateLibrarian
 
 	@Override
 	public Boolean deleteLibrarian(String librarianId) {
 		try {
-		Users users=null;
-		users=entityManager.find(Users.class, librarianId);
-			if(users==null) {
+			Users users = null;
+			users = entityManager.find(Users.class, librarianId);
+			if (users == null) {
 				return false;
-			}else {
+			} else {
 				transaction.begin();
 				entityManager.remove(users);
 				transaction.commit();
 				entityManager.close();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			e.printStackTrace();
 		}
 		entityManager.close();
 		return true;
-		}//end of delete
+	}// end of delete
 
 	@Override
 	public Users searchLibrarian(String librarianId) {
-		Users users=null;
-		users=entityManager.find(Users.class, librarianId);
-				if(users!=null) {	
-				}else {
-					return users;
-				}
-				entityManager.close();
-				return users;
-	}//end of searchLibrarian
+		Users users = null;
+		transaction.begin();
+		users = entityManager.find(Users.class, librarianId);
+		entityManager.close();
+		return users;
+	}// end of searchLibrarian
 }

@@ -17,6 +17,7 @@ public interface LibrarianDAO {
 		public List<BooksRegistration> getBookRequest();
 		public Boolean cancelBookRequest(Integer registrationId);
 		public BooksTransaction responseBookRequest(Integer registrationId);
+		public Users addNewStudent(Users student);
 		public List<Users> searchStudent(String studentId);
 		public Boolean deleteStudent(String studentId);
 

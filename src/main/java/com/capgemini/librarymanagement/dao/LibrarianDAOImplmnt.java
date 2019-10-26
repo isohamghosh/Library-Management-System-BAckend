@@ -95,8 +95,6 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		return registeredBooks;
 	}
 
-
-
 	@Override
 	public Boolean cancelBookRequest(Integer registrationId) {
 		BooksRegistration id = entityManager.find(BooksRegistration.class, registrationId);
@@ -116,6 +114,21 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		entityManager.close();
 		return true;
 	}
+	
+	@Override
+	public Users addNewStudent(Users student) {
+		try {
+			transaction.begin();
+			entityManager.persist(student);
+			transaction.commit();
+			entityManager.close();
+		} catch(Exception e) {
+			transaction.rollback();
+			throw new CustomException("Student not added");
+		}
+		return student;
+	}//end of addNewStudent
+	
 
 	@Override
 	public List<Users> searchStudent(String studentId) {

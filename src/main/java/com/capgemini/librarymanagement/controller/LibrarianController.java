@@ -41,18 +41,22 @@ public class LibrarianController {
 	@GetMapping("/getAllBookRequest")
 	public List<BooksRegistration> getBookRequest() {
 		return service.getBookRequest();
-	}
+	}//end of getBookRequest
 
 	@PostMapping("/responseBookRequest/{id}")
 	public BooksTransaction responseBookRequest(@PathVariable(name="id") Integer id) {
 		return service.responseBookRequest(id);
-
-	}
+	}//end of responseBookRequest
 
 	@GetMapping("/cancelBookRequest/{id}")
 	public boolean cancelBookRequest(@PathVariable(name="id") Integer id) {
 		return service.cancelBookRequest(id);
-	}
+	}//end of cancelBookRequest
+	
+	@PostMapping("/addStudent")
+	public Users addNewStudent(@RequestBody Users student) {
+		return service.addNewStudent(student);
+	}//end of addNewStudent
 
 	@GetMapping("/searchStudent/{id}")
 	public List<Users> searchStudent(@PathVariable(name="id") String id) {

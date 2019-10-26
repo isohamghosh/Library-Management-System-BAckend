@@ -37,6 +37,7 @@ public class AdminController {
 	
 	@DeleteMapping("/deleteLibrarian/{id}")
 	public boolean deleteLibrarian(@PathVariable(name="id")String librarianId) {
-		return service.deleteLibrarian(librarianId);	}//end of deleteLibrarian
+		return service.deleteLibrarian(librarianId);	
+	}//end of deleteLibrarian
 
 }

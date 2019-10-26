@@ -10,20 +10,25 @@ import com.capgemini.librarymanagement.dto.BooksInventory;
 import com.capgemini.librarymanagement.dto.BooksRegistration;
 import com.capgemini.librarymanagement.dto.BooksTransaction;
 import com.capgemini.librarymanagement.dto.Users;
+import com.capgemini.librarymanagement.validations.BackendValidation;
 
 @Service
 public class LibrarianServiceImplmnt implements LibrarianService {
 	
 	@Autowired
 	private LibrarianDAO dao;
+	
+	private BackendValidation validate = new BackendValidation();
 
 	@Override
 	public BooksInventory addNewBook(BooksInventory booksInvent) {
+		validate.validateyearOfPublication(booksInvent.getYearOfPublication());
 		return dao.addNewBook(booksInvent);
 	}
 
 	@Override
 	public BooksInventory updateBook(BooksInventory booksInvent) {
+		validate.validateyearOfPublication(booksInvent.getYearOfPublication());
 		return dao.updateBook(booksInvent);
 	}
 
@@ -40,6 +45,13 @@ public class LibrarianServiceImplmnt implements LibrarianService {
 	@Override
 	public Boolean cancelBookRequest(Integer registrationId) {
 		return dao.cancelBookRequest(registrationId);
+	}
+	
+	@Override
+	public Users addNewStudent(Users student) {
+		validate.validateId(student.getId());
+		validate.validateEmailId(student.getEmailId());
+		return dao.addNewStudent(student);
 	}
 
 	@Override

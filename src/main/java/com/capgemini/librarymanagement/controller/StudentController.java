@@ -20,34 +20,34 @@ import com.capgemini.librarymanagement.services.StudentService;
 public class StudentController {
 	@Autowired
 	private StudentService service;
-	
+
 	@GetMapping("/searchBook/{bookName}")
 	public List<BooksInventory> SearchForBook(@PathVariable("bookName") String bookName) {
 		return service.searchForBook(bookName);
-	}//end of searchForBooks
-	
+	}// end of searchForBooks
+
 	@PostMapping("/makeBookRequest/{id}")
-	public BooksRegistration  makeBookRequest(@PathVariable(name = "id")String bookId) {
+	public BooksRegistration makeBookRequest(@PathVariable(name = "id") String bookId) {
 		return service.makeBookRequest(bookId);
-	}//end of makeBookRequest
-	
+	}// end of makeBookRequest
+
 	@GetMapping("/getAllRequestedBook")
 	public List<BooksRegistration> getAllRequestedBook() {
 		return service.getAllRequestedBook();
-	}//end of makeBookRequest
-	
+	}// end of makeBookRequest
+
 	@GetMapping("/getAllResponseBook")
 	public List<BooksTransaction> getAllResponseBook() {
 		return service.getResponse();
 	}
-	
+
 	@GetMapping("/cancelRequest/{id}")
-	public boolean  cancelBookRequest(@PathVariable(name = "id")Integer id) {
+	public boolean cancelBookRequest(@PathVariable(name = "id") Integer id) {
 		return service.cancelRequestedBook(id);
 	}
-	
+
 	@PutMapping("/returnBook/{id}")
-	public boolean  returnBook(@PathVariable(name = "id")Integer id) {
+	public boolean returnBook(@PathVariable(name = "id") Integer id) {
 		return service.returnBook(id);
 	}
 }

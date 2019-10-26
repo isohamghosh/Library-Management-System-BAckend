@@ -22,9 +22,10 @@ import com.capgemini.librarymanagement.exception.CustomException;
 @Repository
 public class LibrarianDAOImplmnt implements LibrarianDAO {
 
-	EntityManagerFactory entityManagerFactory=Persistence.createEntityManagerFactory("TestPersistence");
-	EntityManager entityManager=entityManagerFactory.createEntityManager();
-	EntityTransaction transaction=entityManager.getTransaction();
+	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+	EntityManager entityManager = entityManagerFactory.createEntityManager();
+	EntityTransaction transaction = entityManager.getTransaction();
+
 	@Override
 	public BooksInventory addNewBook(BooksInventory booksInvent) {
 		try {
@@ -32,12 +33,12 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			entityManager.persist(booksInvent);
 			transaction.commit();
 			entityManager.close();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Book not added");
 		}
 		return booksInvent;
-	}//end of addLibrarian
+	}// end of addLibrarian
 
 	@Override
 	public BooksInventory updateBook(BooksInventory booksInvent) {
@@ -51,37 +52,37 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			selecetdBook.setPublisher(booksInvent.getPublisher());
 			selecetdBook.setYearofpublication(booksInvent.getYearOfPublication());
 			transaction.commit();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Enter the valid book id");
 		}
 		return booksInvent;
-	}//end of updateLibrarian
+	}// end of updateLibrarian
 
 	@Override
 	public Boolean deleteBook(String bookId) {
 		try {
-			BooksInventory booksInventory=null;
-			booksInventory=entityManager.find(BooksInventory.class, bookId);
-			if(booksInventory==null) {
+			BooksInventory booksInventory = null;
+			booksInventory = entityManager.find(BooksInventory.class, bookId);
+			if (booksInventory == null) {
 				return false;
-			}else {
+			} else {
 				transaction.begin();
 				entityManager.remove(booksInventory);
 				transaction.commit();
 				entityManager.close();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Enter a valid Book Id");
 		}
 		entityManager.close();
 		return true;
-	}//end of deleteBook
+	}// end of deleteBook
 
 	@Override
 	public List<BooksRegistration> getBookRequest() {
-		List<BooksRegistration> registeredBooks=null;
+		List<BooksRegistration> registeredBooks = null;
 		try {
 			transaction.begin();
 			String query = "from BooksRegistration";
@@ -89,7 +90,7 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			registeredBooks = getDetailsQuarry.getResultList();
 			transaction.commit();
 			entityManager.close();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new CustomException("No Records Found");
 		}
 		return registeredBooks;
@@ -99,22 +100,22 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 	public Boolean cancelBookRequest(Integer registrationId) {
 		BooksRegistration id = entityManager.find(BooksRegistration.class, registrationId);
 		try {
-			if(id==null) {
+			if (id == null) {
 				return false;
-			}else {
+			} else {
 				transaction.begin();
 				entityManager.remove(id);
 				transaction.commit();
 				entityManager.close();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			e.printStackTrace();
 		}
 		entityManager.close();
 		return true;
 	}
-	
+
 	@Override
 	public Users addNewStudent(Users student) {
 		try {
@@ -122,17 +123,16 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			entityManager.persist(student);
 			transaction.commit();
 			entityManager.close();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Student not added");
 		}
 		return student;
-	}//end of addNewStudent
-	
+	}// end of addNewStudent
 
 	@Override
 	public List<Users> searchStudent(String studentId) {
-		List<Users> users=null;
+		List<Users> users = null;
 		try {
 			transaction.begin();
 			String query = "from Users where id=: studentId ";
@@ -141,7 +141,7 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			users = searchQuarry.getResultList();
 			entityManager.getTransaction().commit();
 			entityManager.close();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new CustomException("No Student Found");
 		}
 		return users;
@@ -150,23 +150,23 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 	@Override
 	public Boolean deleteStudent(String studentId) {
 		try {
-			Users users=null;
-			users=entityManager.find(Users.class, studentId);
-			if(users==null) {
+			Users users = null;
+			users = entityManager.find(Users.class, studentId);
+			if (users == null) {
 				return false;
-			}else {
+			} else {
 				transaction.begin();
 				entityManager.remove(users);
 				transaction.commit();
 				entityManager.close();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Enter a valid Student Id");
 		}
 		entityManager.close();
 		return true;
-	}//end of deleteStudent
+	}// end of deleteStudent
 
 	@Override
 	public BooksTransaction responseBookRequest(Integer registrationId) {
@@ -188,7 +188,7 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			entityManager.remove(regId);
 			transaction.commit();
 			entityManager.close();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Failed to response");
 		}
@@ -196,4 +196,3 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		return booksTransaction;
 	}
 }
-

@@ -19,25 +19,24 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 
-	
 	@PostMapping("/addLibrarian")
-	public Users  addLibrarian(@RequestBody Users librarian) {
+	public Users addLibrarian(@RequestBody Users librarian) {
 		return service.addLibrarian(librarian);
-	}//end of addLibrarian
-	
+	}// end of addLibrarian
+
 	@PutMapping("/updateLibrarian")
 	public Users updateLibrarian(@RequestBody Users librarian) {
 		return service.updateLibrarian(librarian);
-	}//end of updateLibrarian
-	
+	}// end of updateLibrarian
+
 	@GetMapping("/searchLibrarian/{id}")
-	public Users searchLibrarian(@PathVariable(name = "id")String librarianId) {
+	public Users searchLibrarian(@PathVariable(name = "id") String librarianId) {
 		return service.searchLibrarian(librarianId);
-	}//end of searchLibrarian
-	
+	}// end of searchLibrarian
+
 	@DeleteMapping("/deleteLibrarian/{id}")
-	public boolean deleteLibrarian(@PathVariable(name="id")String librarianId) {
-		return service.deleteLibrarian(librarianId);	
-	}//end of deleteLibrarian
+	public boolean deleteLibrarian(@PathVariable(name = "id") String librarianId) {
+		return service.deleteLibrarian(librarianId);
+	}// end of deleteLibrarian
 
 }

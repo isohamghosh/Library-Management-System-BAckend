@@ -25,41 +25,41 @@ public class LibrarianController {
 
 	@PostMapping("/addNewBook")
 	public BooksInventory addNewBook(@RequestBody BooksInventory booksInventory) {
-		return service.addNewBook(booksInventory); 
-	}//end of addNewBook
+		return service.addNewBook(booksInventory);
+	}// end of addNewBook
 
 	@PostMapping("/updateBook")
 	public BooksInventory updateBook(@RequestBody BooksInventory booksInventory) {
 		return service.updateBook(booksInventory);
-	}//end of updateBook
+	}// end of updateBook
 
 	@DeleteMapping("/deleteBook/{bookId}")
-	public boolean deleteBook(@PathVariable(name="bookId") String bookId) {
-		return service.deleteBook(bookId); 
-	}//end of deleteBook
+	public boolean deleteBook(@PathVariable(name = "bookId") String bookId) {
+		return service.deleteBook(bookId);
+	}// end of deleteBook
 
 	@GetMapping("/getAllBookRequest")
 	public List<BooksRegistration> getBookRequest() {
 		return service.getBookRequest();
-	}//end of getBookRequest
+	}// end of getBookRequest
 
 	@PostMapping("/responseBookRequest/{id}")
-	public BooksTransaction responseBookRequest(@PathVariable(name="id") Integer id) {
+	public BooksTransaction responseBookRequest(@PathVariable(name = "id") Integer id) {
 		return service.responseBookRequest(id);
-	}//end of responseBookRequest
+	}// end of responseBookRequest
 
 	@GetMapping("/cancelBookRequest/{id}")
-	public boolean cancelBookRequest(@PathVariable(name="id") Integer id) {
+	public boolean cancelBookRequest(@PathVariable(name = "id") Integer id) {
 		return service.cancelBookRequest(id);
-	}//end of cancelBookRequest
-	
+	}// end of cancelBookRequest
+
 	@PostMapping("/addStudent")
 	public Users addNewStudent(@RequestBody Users student) {
 		return service.addNewStudent(student);
-	}//end of addNewStudent
+	}// end of addNewStudent
 
 	@GetMapping("/searchStudent/{id}")
-	public List<Users> searchStudent(@PathVariable(name="id") String id) {
+	public List<Users> searchStudent(@PathVariable(name = "id") String id) {
 		return service.searchStudent(id);
-	}//end of deleteStudent	
+	}// end of deleteStudent
 }

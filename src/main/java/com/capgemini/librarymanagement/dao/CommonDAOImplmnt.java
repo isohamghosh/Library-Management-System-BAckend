@@ -19,6 +19,7 @@ public class CommonDAOImplmnt implements CommonDAO {
 	EntityManager entityManager = entityManagerFactory.createEntityManager();
 	EntityTransaction transaction = entityManager.getTransaction();
 	static String userId;
+
 	@Override
 	public Users login(Users user) {
 		transaction.begin();

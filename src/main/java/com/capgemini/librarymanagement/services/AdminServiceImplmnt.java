@@ -9,10 +9,10 @@ import com.capgemini.librarymanagement.validations.BackendValidation;
 
 @Service
 public class AdminServiceImplmnt implements AdminService {
-	
+
 	@Autowired
 	private AdminDAO dao;
-	
+
 	private BackendValidation validate = new BackendValidation();
 
 	@Override

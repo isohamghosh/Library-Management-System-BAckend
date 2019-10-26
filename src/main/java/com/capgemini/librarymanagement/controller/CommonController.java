@@ -13,7 +13,7 @@ public class CommonController {
 
 	@Autowired
 	private CommonService commonService;
-	
+
 	@PostMapping("user/login")
 	public Users logIn(@RequestBody Users user) {
 		return commonService.login(user);

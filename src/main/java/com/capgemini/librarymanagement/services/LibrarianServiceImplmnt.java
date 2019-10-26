@@ -14,10 +14,10 @@ import com.capgemini.librarymanagement.validations.BackendValidation;
 
 @Service
 public class LibrarianServiceImplmnt implements LibrarianService {
-	
+
 	@Autowired
 	private LibrarianDAO dao;
-	
+
 	private BackendValidation validate = new BackendValidation();
 
 	@Override
@@ -38,7 +38,7 @@ public class LibrarianServiceImplmnt implements LibrarianService {
 	}
 
 	@Override
-	public List<BooksRegistration> getBookRequest(){
+	public List<BooksRegistration> getBookRequest() {
 		return dao.getBookRequest();
 	}
 
@@ -46,7 +46,7 @@ public class LibrarianServiceImplmnt implements LibrarianService {
 	public Boolean cancelBookRequest(Integer registrationId) {
 		return dao.cancelBookRequest(registrationId);
 	}
-	
+
 	@Override
 	public Users addNewStudent(Users student) {
 		validate.validateId(student.getId());

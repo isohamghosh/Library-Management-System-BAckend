@@ -11,7 +11,7 @@ import com.capgemini.librarymanagement.validations.BackendValidation;
 public class CommonServiceImplmnt implements CommonService {
 	@Autowired
 	CommonDAO dao;
-	
+
 	private BackendValidation validate = new BackendValidation();
 
 	@Override

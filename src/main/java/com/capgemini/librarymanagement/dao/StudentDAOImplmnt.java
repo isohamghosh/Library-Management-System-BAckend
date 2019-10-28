@@ -7,7 +7,7 @@ import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -19,8 +19,9 @@ import com.capgemini.librarymanagement.exception.CustomException;
 
 @Repository
 public class StudentDAOImplmnt implements StudentDAO {
-
-	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+	
+	@PersistenceUnit
+	EntityManagerFactory entityManagerFactory;
 
 	@Override
 	public List<BooksInventory> searchForBook(String bookName) {
@@ -79,7 +80,7 @@ public class StudentDAOImplmnt implements StudentDAO {
 			}
 		} catch (Exception e) {
 			transaction.rollback();
-			e.printStackTrace();
+			throw new CustomException("Failed to Cancel");
 		}
 		entityManager.close();
 		return true;
@@ -124,7 +125,8 @@ public class StudentDAOImplmnt implements StudentDAO {
 	}
 
 	@Override
-	public boolean returnBook(Integer transectionId) {
+	public int returnBook(Integer transectionId) {
+		int fine;
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
@@ -134,14 +136,15 @@ public class StudentDAOImplmnt implements StudentDAO {
 		Date todayDate = new Date();
 		long days = (todayDate.getTime() - returnDate.getTime()) / (1000 * 60 * 60 * 24);
 		if (days > 0) {
-			int fine = (int) days * 2;
+			fine = (int) days * 10;
 			booksTransaction.setFine(fine);
 		} else {
+			fine = 0;
 			booksTransaction.setFine(0);
 		}
 		transaction.commit();
 		entityManager.close();
-		return false;
+		return fine;
 	}
 
 }

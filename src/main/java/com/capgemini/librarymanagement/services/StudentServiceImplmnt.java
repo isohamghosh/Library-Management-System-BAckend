@@ -42,7 +42,7 @@ public class StudentServiceImplmnt implements StudentService {
 	}
 
 	@Override
-	public boolean returnBook(Integer transectionId) {
+	public int returnBook(Integer transectionId) {
 		return dao.returnBook(transectionId);
 	}
 

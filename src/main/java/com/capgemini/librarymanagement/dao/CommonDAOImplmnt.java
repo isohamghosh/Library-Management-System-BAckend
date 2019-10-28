@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -15,11 +15,13 @@ import com.capgemini.librarymanagement.dto.Users;
 @Repository
 public class CommonDAOImplmnt implements CommonDAO {
 
-	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
 	static String userId;
 
 	@Override
 	public Users login(Users user) {
+		CommonDAOImplmnt.userId = user.getId();
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
@@ -28,11 +30,10 @@ public class CommonDAOImplmnt implements CommonDAO {
 		query.setParameter("id", user.getId());
 		query.setParameter("password", user.getPassword());
 		List<Users> users = query.getResultList();
-		if (users.size() > 0) {
+		if (users.isEmpty()) {
 			user = users.get(0);
 			transaction.commit();
 			entityManager.close();
-			CommonDAOImplmnt.userId = user.getId();
 		}
 		return user;
 	}

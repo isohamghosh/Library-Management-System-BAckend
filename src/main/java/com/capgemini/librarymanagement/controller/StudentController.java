@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +22,11 @@ public class StudentController {
 	private StudentService service;
 
 	@GetMapping("/searchBook/{bookName}")
-	public List<BooksInventory> SearchForBook(@PathVariable("bookName") String bookName) {
+	public List<BooksInventory> searchForBook(@PathVariable("bookName") String bookName) {
 		return service.searchForBook(bookName);
 	}// end of searchForBooks
 
-	@PostMapping("/makeBookRequest/{id}")
+	@GetMapping("/makeBookRequest/{id}")
 	public BooksRegistration makeBookRequest(@PathVariable(name = "id") String bookId) {
 		return service.makeBookRequest(bookId);
 	}// end of makeBookRequest
@@ -38,7 +36,7 @@ public class StudentController {
 		return service.getAllRequestedBook();
 	}// end of makeBookRequest
 
-	@GetMapping("/getAllResponseBook")
+	@GetMapping("/getAllAllocatedBook")
 	public List<BooksTransaction> getAllResponseBook() {
 		return service.getResponse();
 	}
@@ -48,8 +46,8 @@ public class StudentController {
 		return service.cancelRequestedBook(id);
 	}
 
-	@PutMapping("/returnBook/{id}")
-	public boolean returnBook(@PathVariable(name = "id") Integer id) {
+	@GetMapping("/returnBook/{id}")
+	public int returnBook(@PathVariable(name = "id") Integer id) {
 		return service.returnBook(id);
 	}
 }

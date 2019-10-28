@@ -23,9 +23,13 @@ public interface LibrarianService {
 	public BooksTransaction responseBookRequest(Integer registrationId);
 
 	public Users addNewStudent(Users student);
+	
+	public Users updateStudent(Users student);
 
 	public List<Users> searchStudent();
 
 	public Boolean deleteStudent(String studentId);
+	
+	public List<BooksInventory> searchBook();
 
 }

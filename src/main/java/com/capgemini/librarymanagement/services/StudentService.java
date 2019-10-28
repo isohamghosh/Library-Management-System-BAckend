@@ -19,5 +19,5 @@ public interface StudentService {
 
 	public List<BooksRegistration> getAllRequestedBook();
 
-	public boolean returnBook(Integer transectionId);
+	public int returnBook(Integer transectionId);
 }

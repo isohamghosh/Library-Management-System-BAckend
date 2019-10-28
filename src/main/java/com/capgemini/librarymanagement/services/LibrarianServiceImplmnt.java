@@ -68,5 +68,16 @@ public class LibrarianServiceImplmnt implements LibrarianService {
 	public BooksTransaction responseBookRequest(Integer registrationId) {
 		return dao.responseBookRequest(registrationId);
 	}
+	
+	@Override
+	public Users updateStudent(Users student) {
+//		validate.validateId(librarian.getId());
+//		validate.validateEmailId(librarian.getEmailId());
+		return dao.updateStudent(student);
+	}
+	
+	public List<BooksInventory> searchBook() {
+		return dao.searchBook();
+	}
 
 }

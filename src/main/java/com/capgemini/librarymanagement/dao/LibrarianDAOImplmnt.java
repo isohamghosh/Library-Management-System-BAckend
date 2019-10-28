@@ -8,7 +8,7 @@ import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -21,8 +21,11 @@ import com.capgemini.librarymanagement.exception.CustomException;
 
 @Repository
 public class LibrarianDAOImplmnt implements LibrarianDAO {
+	
+	private String role = "Student";
 
-	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
 
 	@Override
 	public BooksInventory addNewBook(BooksInventory booksInvent) {
@@ -117,7 +120,7 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			}
 		} catch (Exception e) {
 			transaction.rollback();
-			e.printStackTrace();
+			throw new CustomException("Failed to cancel");
 		}
 		entityManager.close();
 		return true;
@@ -130,7 +133,7 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		try {
 			transaction.begin();
 			if(student.getRole() == null) {
-			student.setRole("Student");
+			student.setRole(role);
 			entityManager.persist(student);
 			transaction.commit();
 			entityManager.close();
@@ -151,7 +154,7 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 			transaction.begin();
 			String query = "from Users where role=: role ";
 			Query searchQuarry = entityManager.createQuery(query);
-			searchQuarry.setParameter("role", "Student");
+			searchQuarry.setParameter("role", role);
 			users = searchQuarry.getResultList();
 			entityManager.getTransaction().commit();
 			entityManager.close();
@@ -212,5 +215,43 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		}
 
 		return booksTransaction;
+	}
+	
+	public Users updateStudent(Users student) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			Users getUser = entityManager.find(Users.class, student.getId());
+			if (getUser != null) {
+				getUser.setId(student.getId());
+				getUser.setName(student.getName());
+				getUser.setEmailId(student.getEmailId());
+				getUser.setPassword(student.getPassword());
+				getUser.setRole(role);
+				transaction.commit();
+				entityManager.close();
+			}
+		} catch (Exception e) {
+			transaction.rollback();
+		}
+		return student;
+	}
+	
+	public List<BooksInventory> searchBook() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		List<BooksInventory> books = null;
+		try {
+			transaction.begin();
+			String query = "from BooksInventory";
+			Query searchQuarry = entityManager.createQuery(query);
+			books = searchQuarry.getResultList();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+		} catch (Exception e) {
+			throw new CustomException("No Books Found");
+		}
+		return books;
 	}
 }

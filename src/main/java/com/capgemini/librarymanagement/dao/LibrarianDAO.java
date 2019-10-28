@@ -27,5 +27,9 @@ public interface LibrarianDAO {
 	public List<Users> searchStudent();
 
 	public Boolean deleteStudent(String studentId);
+	
+	public Users updateStudent(Users student);
+	
+	public List<BooksInventory> searchBook();
 
 }

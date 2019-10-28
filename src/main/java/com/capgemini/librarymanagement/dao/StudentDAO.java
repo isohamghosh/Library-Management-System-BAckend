@@ -19,6 +19,6 @@ public interface StudentDAO {
 
 	public List<BooksTransaction> getResponse();
 
-	public boolean returnBook(Integer transectionId);
+	public int returnBook(Integer transectionId);
 
 }

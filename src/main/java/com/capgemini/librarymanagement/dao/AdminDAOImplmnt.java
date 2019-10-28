@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
@@ -16,9 +15,11 @@ import com.capgemini.librarymanagement.exception.CustomException;
 
 @Repository
 public class AdminDAOImplmnt implements AdminDAO {
+	
+	private String role = "Librarian";
 
 	@PersistenceUnit
-	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
+	private EntityManagerFactory entityManagerFactory;
 
 	@Override
 	public Users addLibrarian(Users librarian) {
@@ -27,7 +28,7 @@ public class AdminDAOImplmnt implements AdminDAO {
 		try {
 			transaction.begin();
 			if (librarian.getRole() == null) {
-				librarian.setRole("Librarian");
+				librarian.setRole(role);
 				entityManager.persist(librarian);
 				transaction.commit();
 				entityManager.close();
@@ -52,7 +53,7 @@ public class AdminDAOImplmnt implements AdminDAO {
 				getUser.setName(librarian.getName());
 				getUser.setEmailId(librarian.getEmailId());
 				getUser.setPassword(librarian.getPassword());
-				getUser.setRole("Librarian");
+				getUser.setRole(role);
 				transaction.commit();
 				entityManager.close();
 			}
@@ -79,7 +80,7 @@ public class AdminDAOImplmnt implements AdminDAO {
 			}
 		} catch (Exception e) {
 			transaction.rollback();
-			e.printStackTrace();
+			throw new CustomException("Librarian not deleted");
 		}
 		entityManager.close();
 		return true;
@@ -93,7 +94,7 @@ public class AdminDAOImplmnt implements AdminDAO {
 		transaction.begin();
 		String query = "from Users where role=: role";
 		Query getDetailsQuarry = entityManager.createQuery(query);
-		getDetailsQuarry.setParameter("role", "Librarian");
+		getDetailsQuarry.setParameter("role", role);
 		users = getDetailsQuarry.getResultList();
 		transaction.commit();
 		entityManager.close();

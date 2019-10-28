@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +31,7 @@ public class LibrarianController {
 		return service.addNewBook(booksInventory);
 	}// end of addNewBook
 
-	@PostMapping("/updateBook")
+	@PutMapping("/updateBook")
 	public BooksInventory updateBook(@RequestBody BooksInventory booksInventory) {
 		return service.updateBook(booksInventory);
 	}// end of updateBook
@@ -45,7 +46,7 @@ public class LibrarianController {
 		return service.getBookRequest();
 	}// end of getBookRequest
 
-	@PostMapping("/responseBookRequest/{id}")
+	@GetMapping("/responseBookRequest/{id}")
 	public BooksTransaction responseBookRequest(@PathVariable(name = "id") Integer id) {
 		return service.responseBookRequest(id);
 	}// end of responseBookRequest
@@ -68,5 +69,15 @@ public class LibrarianController {
 	@GetMapping("/searchStudent")
 	public List<Users> searchStudent() {
 		return service.searchStudent();
+	}// end of deleteStudent
+	
+	@PutMapping("/updateStudent")
+	public Users updateLibrarian(@RequestBody Users student) {
+		return service.updateStudent(student);
+	}// end of updateStudent
+	
+	@GetMapping("/searchBooks")
+	public List<BooksInventory> searchBooks() {
+		return service.searchBook();
 	}// end of deleteStudent
 }

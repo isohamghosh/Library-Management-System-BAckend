@@ -3,6 +3,7 @@ package com.capgemini.librarymanagement.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import com.capgemini.librarymanagement.dto.BooksTransaction;
 import com.capgemini.librarymanagement.dto.Users;
 import com.capgemini.librarymanagement.services.LibrarianService;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*",allowCredentials = "true")
 @RestController
 @RequestMapping("/librarian")
 public class LibrarianController {
@@ -58,8 +60,13 @@ public class LibrarianController {
 		return service.addNewStudent(student);
 	}// end of addNewStudent
 
-	@GetMapping("/searchStudent/{id}")
-	public List<Users> searchStudent(@PathVariable(name = "id") String id) {
-		return service.searchStudent(id);
+	@DeleteMapping("/deleteStudent/{id}")
+	public boolean deleteLibrarian(@PathVariable(name = "id") String studentId) {
+		return service.deleteStudent(studentId);
+	}// end of deleteLibrarian
+	
+	@GetMapping("/searchStudent")
+	public List<Users> searchStudent() {
+		return service.searchStudent();
 	}// end of deleteStudent
 }

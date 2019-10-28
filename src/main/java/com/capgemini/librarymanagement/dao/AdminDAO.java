@@ -1,5 +1,7 @@
 package com.capgemini.librarymanagement.dao;
 
+import java.util.List;
+
 import com.capgemini.librarymanagement.dto.Users;
 
 public interface AdminDAO {
@@ -10,6 +12,6 @@ public interface AdminDAO {
 
 	public Boolean deleteLibrarian(String librarianId);
 
-	public Users searchLibrarian(String librarianId);
+	public List<Users> searchLibrarian();
 
 }

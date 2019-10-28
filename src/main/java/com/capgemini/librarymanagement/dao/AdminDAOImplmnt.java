@@ -1,10 +1,13 @@
 package com.capgemini.librarymanagement.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,26 +19,31 @@ public class AdminDAOImplmnt implements AdminDAO {
 
 	@PersistenceUnit
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
-	EntityManager entityManager = entityManagerFactory.createEntityManager();
-	EntityTransaction transaction = entityManager.getTransaction();
 
 	@Override
 	public Users addLibrarian(Users librarian) {
-
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			transaction.begin();
-			entityManager.persist(librarian);
-			transaction.commit();
-			entityManager.close();
+			if (librarian.getRole() == null) {
+				librarian.setRole("Librarian");
+				entityManager.persist(librarian);
+				transaction.commit();
+				entityManager.close();
+			}
 		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Librarian not added");
 		}
+
 		return librarian;
 	}// end of addLibrarian
 
 	@Override
 	public Users updateLibrarian(Users librarian) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			transaction.begin();
 			Users getUser = entityManager.find(Users.class, librarian.getId());
@@ -44,6 +52,7 @@ public class AdminDAOImplmnt implements AdminDAO {
 				getUser.setName(librarian.getName());
 				getUser.setEmailId(librarian.getEmailId());
 				getUser.setPassword(librarian.getPassword());
+				getUser.setRole("Librarian");
 				transaction.commit();
 				entityManager.close();
 			}
@@ -55,6 +64,8 @@ public class AdminDAOImplmnt implements AdminDAO {
 
 	@Override
 	public Boolean deleteLibrarian(String librarianId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			Users users = null;
 			users = entityManager.find(Users.class, librarianId);
@@ -75,10 +86,16 @@ public class AdminDAOImplmnt implements AdminDAO {
 	}// end of delete
 
 	@Override
-	public Users searchLibrarian(String librarianId) {
-		Users users = null;
+	public List<Users> searchLibrarian() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		List<Users> users = null;
 		transaction.begin();
-		users = entityManager.find(Users.class, librarianId);
+		String query = "from Users where role=: role";
+		Query getDetailsQuarry = entityManager.createQuery(query);
+		getDetailsQuarry.setParameter("role", "Librarian");
+		users = getDetailsQuarry.getResultList();
+		transaction.commit();
 		entityManager.close();
 		return users;
 	}// end of searchLibrarian

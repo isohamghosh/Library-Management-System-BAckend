@@ -23,11 +23,11 @@ import com.capgemini.librarymanagement.exception.CustomException;
 public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
-	EntityManager entityManager = entityManagerFactory.createEntityManager();
-	EntityTransaction transaction = entityManager.getTransaction();
 
 	@Override
 	public BooksInventory addNewBook(BooksInventory booksInvent) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			transaction.begin();
 			entityManager.persist(booksInvent);
@@ -42,7 +42,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	@Override
 	public BooksInventory updateBook(BooksInventory booksInvent) {
-
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			transaction.begin();
 			BooksInventory selecetdBook = entityManager.find(BooksInventory.class, booksInvent.getBookId());
@@ -61,6 +62,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	@Override
 	public Boolean deleteBook(String bookId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			BooksInventory booksInventory = null;
 			booksInventory = entityManager.find(BooksInventory.class, bookId);
@@ -82,6 +85,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	@Override
 	public List<BooksRegistration> getBookRequest() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		List<BooksRegistration> registeredBooks = null;
 		try {
 			transaction.begin();
@@ -98,6 +103,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	@Override
 	public Boolean cancelBookRequest(Integer registrationId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		BooksRegistration id = entityManager.find(BooksRegistration.class, registrationId);
 		try {
 			if (id == null) {
@@ -118,11 +125,16 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	@Override
 	public Users addNewStudent(Users student) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			transaction.begin();
+			if(student.getRole() == null) {
+			student.setRole("Student");
 			entityManager.persist(student);
 			transaction.commit();
 			entityManager.close();
+			}
 		} catch (Exception e) {
 			transaction.rollback();
 			throw new CustomException("Student not added");
@@ -131,13 +143,15 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 	}// end of addNewStudent
 
 	@Override
-	public List<Users> searchStudent(String studentId) {
+	public List<Users> searchStudent() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		List<Users> users = null;
 		try {
 			transaction.begin();
-			String query = "from Users where id=: studentId ";
+			String query = "from Users where role=: role ";
 			Query searchQuarry = entityManager.createQuery(query);
-			searchQuarry.setParameter("id", studentId);
+			searchQuarry.setParameter("role", "Student");
 			users = searchQuarry.getResultList();
 			entityManager.getTransaction().commit();
 			entityManager.close();
@@ -149,6 +163,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	@Override
 	public Boolean deleteStudent(String studentId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		try {
 			Users users = null;
 			users = entityManager.find(Users.class, studentId);
@@ -170,6 +186,8 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 
 	@Override
 	public BooksTransaction responseBookRequest(Integer registrationId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		BooksTransaction booksTransaction = new BooksTransaction();
 		try {
 			transaction.begin();

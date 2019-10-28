@@ -16,12 +16,12 @@ import com.capgemini.librarymanagement.dto.Users;
 public class CommonDAOImplmnt implements CommonDAO {
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
-	EntityManager entityManager = entityManagerFactory.createEntityManager();
-	EntityTransaction transaction = entityManager.getTransaction();
 	static String userId;
 
 	@Override
 	public Users login(Users user) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		String jpql = "from Users where id= :id  and password= :password";
 		Query query = entityManager.createQuery(jpql);

@@ -21,11 +21,11 @@ import com.capgemini.librarymanagement.exception.CustomException;
 public class StudentDAOImplmnt implements StudentDAO {
 
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TestPersistence");
-	EntityManager entityManager = entityManagerFactory.createEntityManager();
-	EntityTransaction transaction = entityManager.getTransaction();
 
 	@Override
 	public List<BooksInventory> searchForBook(String bookName) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		List<BooksInventory> booksInventory = null;
 		try {
 			transaction.begin();
@@ -43,6 +43,8 @@ public class StudentDAOImplmnt implements StudentDAO {
 
 	@Override
 	public BooksRegistration makeBookRequest(String bookId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		BooksRegistration registration = new BooksRegistration();
 		try {
 			transaction.begin();
@@ -63,6 +65,8 @@ public class StudentDAOImplmnt implements StudentDAO {
 
 	@Override
 	public Boolean cancelRequestedBook(Integer registrationId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		BooksRegistration id = entityManager.find(BooksRegistration.class, registrationId);
 		try {
 			if (id == null) {
@@ -83,6 +87,8 @@ public class StudentDAOImplmnt implements StudentDAO {
 
 	@Override
 	public List<BooksTransaction> getResponse() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		List<BooksTransaction> booksTransaction = null;
 		try {
 			transaction.begin();
@@ -100,6 +106,8 @@ public class StudentDAOImplmnt implements StudentDAO {
 
 	@Override
 	public List<BooksRegistration> getAllRequestedBook() {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		List<BooksRegistration> registeredBooks = null;
 		try {
 			transaction.begin();
@@ -117,6 +125,8 @@ public class StudentDAOImplmnt implements StudentDAO {
 
 	@Override
 	public boolean returnBook(Integer transectionId) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		BooksTransaction booksTransaction = null;
 		booksTransaction = entityManager.find(BooksTransaction.class, transectionId);

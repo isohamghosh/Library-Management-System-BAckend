@@ -24,7 +24,7 @@ public interface LibrarianService {
 
 	public Users addNewStudent(Users student);
 
-	public List<Users> searchStudent(String studentId);
+	public List<Users> searchStudent();
 
 	public Boolean deleteStudent(String studentId);
 

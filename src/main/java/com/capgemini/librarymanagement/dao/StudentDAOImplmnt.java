@@ -1,6 +1,7 @@
 package com.capgemini.librarymanagement.dao;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +31,7 @@ public class StudentDAOImplmnt implements StudentDAO {
 		List<BooksInventory> booksInventory = null;
 		try {
 			transaction.begin();
-			String query = "from BooksInventory where bookName=: bookName ";
+			String query = "from BooksInventory where bookName like concat ('%', :bookName, '%')";
 			Query searchQuarry = entityManager.createQuery(query);
 			searchQuarry.setParameter("bookName", bookName);
 			booksInventory = searchQuarry.getResultList();
@@ -53,7 +54,7 @@ public class StudentDAOImplmnt implements StudentDAO {
 			registration.setRegistrationId(random.nextInt((1000 - 100) + 1) + 100);
 			registration.setUserId(CommonDAOImplmnt.userId);
 			registration.setBookId(bookId);
-			registration.setRegistrationDate(new Date());
+			registration.setRegistrationDate(LocalDate.now());
 			entityManager.persist(registration);
 			transaction.commit();
 			entityManager.close();
@@ -132,11 +133,11 @@ public class StudentDAOImplmnt implements StudentDAO {
 		transaction.begin();
 		BooksTransaction booksTransaction = null;
 		booksTransaction = entityManager.find(BooksTransaction.class, transectionId);
-		Date returnDate = booksTransaction.getReturnDate();
-		Date todayDate = new Date();
-		long days = (todayDate.getTime() - returnDate.getTime()) / (1000 * 60 * 60 * 24);
-		if (days > 0) {
-			fine = (int) days * 10;
+		LocalDate returnDate = booksTransaction.getReturnDate();
+		LocalDate todayDate = LocalDate.now();
+		Period days = Period.between(todayDate, returnDate);
+		if (days.getDays() > 0) {
+			fine = days.getDays() * 10;
 			booksTransaction.setFine(fine);
 		} else {
 			fine = 0;

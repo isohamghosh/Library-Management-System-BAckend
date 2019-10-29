@@ -1,7 +1,6 @@
 package com.capgemini.librarymanagement.dao;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
@@ -195,12 +194,11 @@ public class LibrarianDAOImplmnt implements LibrarianDAO {
 		try {
 			transaction.begin();
 			Random random = new Random();
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(Calendar.DATE, 15);
-			Date returnDate = calendar.getTime();
+			LocalDate issueDate = LocalDate.now();
+			LocalDate returnDate = issueDate.plusDays(15);
 			booksTransaction.setTransactionId(random.nextInt((3000 - 1000) + 1) + 1000);
 			booksTransaction.setRegistrationId(registrationId);
-			booksTransaction.setIssueDate(new Date());
+			booksTransaction.setIssueDate(issueDate);
 			booksTransaction.setReturnDate(returnDate);
 			booksTransaction.setFine(0);
 			booksTransaction.setStudentId(CommonDAOImplmnt.userId);

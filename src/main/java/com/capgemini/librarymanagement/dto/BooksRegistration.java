@@ -1,6 +1,6 @@
 package com.capgemini.librarymanagement.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ public class BooksRegistration {
 	@Column(name = "user_id")
 	private String userId;
 	@Column(name = "registration_date")
-	private Date registrationDate;
+	private LocalDate registrationDate;
 
 	public Integer getRegistrationId() {
 		return registrationId;
@@ -44,11 +44,11 @@ public class BooksRegistration {
 		this.userId = userId;
 	}
 
-	public Date getRegistrationDate() {
+	public LocalDate getRegistrationDate() {
 		return registrationDate;
 	}
 
-	public void setRegistrationDate(Date registrationDate) {
+	public void setRegistrationDate(LocalDate registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 

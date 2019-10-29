@@ -30,7 +30,7 @@ public class CommonDAOImplmnt implements CommonDAO {
 		query.setParameter("id", user.getId());
 		query.setParameter("password", user.getPassword());
 		List<Users> users = query.getResultList();
-		if (users.isEmpty()) {
+		if (!users.isEmpty()) {
 			user = users.get(0);
 			transaction.commit();
 			entityManager.close();

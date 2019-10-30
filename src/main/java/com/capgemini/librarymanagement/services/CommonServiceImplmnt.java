@@ -16,8 +16,8 @@ public class CommonServiceImplmnt implements CommonService {
 
 	@Override
 	public Users login(Users user) {
-		validate.validateId(user.getId());
-		validate.validateEmailId(user.getEmailId());
+//		validate.validateId(user.getId());
+//		validate.validateEmailId(user.getEmailId());
 		return dao.login(user);
 	}
 

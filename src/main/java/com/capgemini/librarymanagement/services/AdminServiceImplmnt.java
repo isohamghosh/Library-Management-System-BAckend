@@ -19,22 +19,29 @@ public class AdminServiceImplmnt implements AdminService {
 
 	@Override
 	public Users addLibrarian(Users librarian) {
-		validate.validateId(librarian.getId());
-		validate.validateEmailId(librarian.getEmailId());
-		return dao.addLibrarian(librarian);
+		if (validate.validateId(librarian.getId()) && validate.validateEmailId(librarian.getEmailId())) {
+			return dao.addLibrarian(librarian);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public Users updateLibrarian(Users librarian) {
-		validate.validateId(librarian.getId());
-		validate.validateEmailId(librarian.getEmailId());
-		return dao.updateLibrarian(librarian);
+		if (validate.validateId(librarian.getId()) && validate.validateEmailId(librarian.getEmailId())) {
+			return dao.updateLibrarian(librarian);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public Boolean deleteLibrarian(String librarianId) {
-		validate.validateId(librarianId);
-		return dao.deleteLibrarian(librarianId);
+		if(validate.validateId(librarianId)) {
+			return dao.deleteLibrarian(librarianId);
+		} else {
+			return null;
+		}
 	}
 
 	@Override

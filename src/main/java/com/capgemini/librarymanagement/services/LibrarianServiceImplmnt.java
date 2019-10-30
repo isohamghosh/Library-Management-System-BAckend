@@ -71,9 +71,11 @@ public class LibrarianServiceImplmnt implements LibrarianService {
 	
 	@Override
 	public Users updateStudent(Users student) {
-		validate.validateId(student.getId());
-		validate.validateEmailId(student.getEmailId());
-		return dao.updateStudent(student);
+		if(validate.validateId(student.getId()) && validate.validateEmailId(student.getEmailId())) {
+			return dao.updateStudent(student);
+		} else {
+			return null;
+		}
 	}
 	
 	public List<BooksInventory> searchBook() {

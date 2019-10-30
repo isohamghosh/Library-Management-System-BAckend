@@ -7,41 +7,41 @@ import com.capgemini.librarymanagement.exception.CustomException;
 
 public class BackendValidation {
 
-	public String validateId(String id) {
+	public boolean validateId(String id) {
 		Pattern pattern = Pattern.compile("\\d+\\d+\\d");
 		Matcher matcher = pattern.matcher(id);
 		if (matcher.matches()) {
-			return id;
+			return true;
 		} else {
 			throw new CustomException("Enter a valid id");
 		}
 	}
 
-	public String validateEmailId(String emailId) {
+	public boolean validateEmailId(String emailId) {
 		Pattern pattern = Pattern.compile("\\w+\\@+\\w+\\.\\w+");
 		Matcher matcher = pattern.matcher(emailId);
 		if (matcher.matches()) {
-			return emailId;
+			return true;
 		} else {
 			throw new CustomException("Enter a valid EmailId");
 		}
 	}
 
-	public String validateyearOfPublication(String yearOfPublication) {
+	public boolean validateyearOfPublication(String yearOfPublication) {
 		Pattern pattern = Pattern.compile("\\d+\\d+\\d+\\d+");
 		Matcher matcher = pattern.matcher(yearOfPublication);
 		if (matcher.matches()) {
-			return yearOfPublication;
+			return true;
 		} else {
 			throw new CustomException("Enter valid year");
 		}
 	}
 
-	public String validatePassword(String password) {
+	public boolean validatePassword(String password) {
 		Pattern pattern = Pattern.compile("\\w+\\d+");
 		Matcher matcher = pattern.matcher(password);
 		if (matcher.matches()) {
-			return password;
+			return true;
 		} else {
 			throw new CustomException("Invalid password..! Enter Valid Password");
 		}
